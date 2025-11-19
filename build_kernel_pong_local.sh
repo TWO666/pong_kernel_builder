@@ -13,12 +13,8 @@ echo "===== Nothing Phone 2 (5.10) KernelSU Local Build Script (Clang 20) - No F
 echo ">>> Reading user configuration..."
 
 # Default values derived from workflow
-DEFAULT_KERNEL_NAME="android12-9-00047-g4968e29b7f92-ab12786767"
 ANDROID_VERSION="android12"
 KERNEL_VERSION="5.10"
-
-read -p "Enter custom kernel suffix (default: ${DEFAULT_KERNEL_NAME}): " CUSTOM_SUFFIX
-CUSTOM_SUFFIX=${CUSTOM_SUFFIX:-${DEFAULT_KERNEL_NAME}}
 
 read -p "KSU type (sukisu/ksunext/mksu/ksu, default: sukisu): " KSU_TYPE
 KSU_TYPE=${KSU_TYPE:-sukisu}
@@ -59,7 +55,6 @@ echo
 echo "===== Configuration Info ====="
 echo "Device: Nothing Phone 2"
 echo "Kernel Version: $KERNEL_VERSION"
-echo "Custom Kernel Suffix: -$CUSTOM_SUFFIX"
 echo "KSU Type: $KSU_BRANCH"
 echo "Enable KPM: $USE_KPM"
 echo "=============================="
@@ -124,12 +119,6 @@ rm common/android/abi_gki_protected_exports_* || true
 for f in common/scripts/setlocalversion; do
   sed -i 's/ -dirty//g' "$f"
   sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' "$f"
-done
-
-# ===== Replace version suffix =====
-echo ">>> Replacing kernel version suffix..."
-for f in ./common/scripts/setlocalversion; do
-  sed -i "\$s|echo \"\\\$res\"|echo \"-${CUSTOM_SUFFIX}\"|" "$f"
 done
 
 # ===== Pull KSU and set version number =====
@@ -396,7 +385,7 @@ cd "$WORKDIR/kernel_workspace/AnyKernel3"
 
 # ===== Generate ZIP filename =====
 CURRENT_TIME=$(date +'%y%m%d-%H%M%S')
-ZIP_NAME="AnyKernel3_${KSU_TYPENAME}_${KSU_VERSION}_${KERNEL_VERSION}_NothingPhone2_${CUSTOM_SUFFIX}_${CURRENT_TIME}_nofake.zip"
+ZIP_NAME="AnyKernel3_${KSU_TYPENAME}_${KSU_VERSION}_${KERNEL_VERSION}_NothingPhone2_${CURRENT_TIME}_nofake.zip"
 
 # ===== Package ZIP file =====
 echo ">>> Packaging file: $ZIP_NAME"

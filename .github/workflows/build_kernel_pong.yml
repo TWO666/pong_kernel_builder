@@ -51,7 +51,7 @@ jobs:
           
           echo "Cloning Nothing Phone kernel source code..."
           git clone --depth=1 -b dev \
-            https://github.com/TWO666/hellboy017_kernel_pong.git common &
+            https://github.com/TWO666/whitesiemens_kernel_pong common &
           
           echo "Cloning llvm-Clang20 toolchain..." &&
           mkdir -p clang20 &&
